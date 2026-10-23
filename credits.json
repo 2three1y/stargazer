@@ -1,0 +1,78 @@
+{
+  "project": "Stargazer",
+  "author": "Carter (2three1y)",
+  "license": "MIT",
+  "note": "Built only from repos starred by 2three1y. Each one is listed with its license and what it does here.",
+  "credits": [
+    {
+      "name": "sonifier",
+      "repo": "https://github.com/athersharif/sonifier",
+      "author": "Ather Sharif",
+      "license": "BSD-3-Clause",
+      "used_for": "the audio graphs: value-to-frequency mapping, note timing and the AM square tone, ported to plain Web Audio in sonify.js",
+      "notice": "Copyright (c) 2023, Ather Sharif. BSD 3-Clause text in licenses/sonifier.txt. sonify.js is a changed version (marked in its header).",
+      "license_file": "licenses/sonifier.txt",
+      "starred": "checked Oct 23, 2026 (GitHub says starred by 2three1y)"
+    },
+    {
+      "name": "soundcn",
+      "repo": "https://github.com/kapishdima/soundcn",
+      "author": "kapishdima",
+      "license": "MIT (code); CC0 (Kenney Interface Sounds used)",
+      "used_for": "the license sounds and interface sounds (13 Kenney Interface Sounds, converted from OGG to MP3 so iPhone can play them). No World of Warcraft sounds are used.",
+      "notice": "Copyright (c) 2026 KapishDima, MIT text in licenses/soundcn.txt. Sounds CC0 by Kenney (kenney.nl), see sounds/KENNEY-LICENSE.txt.",
+      "license_file": "licenses/soundcn.txt",
+      "starred": "checked Oct 23, 2026 (GitHub says starred by 2three1y)"
+    },
+    {
+      "name": "choosealicense.com",
+      "repo": "https://github.com/github/choosealicense.com",
+      "author": "GitHub, Inc. and contributors",
+      "license": "MIT",
+      "used_for": "the plain-English summary of what each license lets you do (data/licenses.json, built from its _licenses and _data/rules.yml)",
+      "notice": "Copyright (c) GitHub, Inc. and contributors, MIT text in licenses/choosealicense.com.txt.",
+      "license_file": "licenses/choosealicense.com.txt",
+      "starred": "checked Oct 23, 2026 (GitHub says starred by 2three1y)"
+    },
+    {
+      "name": "speakable",
+      "repo": "https://github.com/tollwerk/speakable",
+      "author": "tollwerk GmbH",
+      "license": "MIT",
+      "used_for": "the Read details aloud player in the details dialog (vendor/spkbl.min.js and spkbl.css, restyled)",
+      "notice": "Copyright (c) 2020 tollwerk GmbH, MIT text in licenses/speakable.txt.",
+      "license_file": "licenses/speakable.txt",
+      "starred": "checked Oct 23, 2026 (GitHub says starred by 2three1y)"
+    },
+    {
+      "name": "a11y-dialog",
+      "repo": "https://github.com/KittyGiraudel/a11y-dialog",
+      "author": "Kitty Giraudel",
+      "license": "MIT",
+      "used_for": "the accessible details dialog (focus trap, Escape to close, focus return). Its published build includes Kitty Giraudel's focusable-selectors list.",
+      "notice": "Copyright (c) 2026 Kitty Giraudel, MIT text in licenses/a11y-dialog.txt.",
+      "license_file": "licenses/a11y-dialog.txt",
+      "starred": "checked Oct 23, 2026 (GitHub says starred by 2three1y)"
+    },
+    {
+      "name": "tabbable",
+      "repo": "https://github.com/focus-trap/tabbable",
+      "author": "David Clark and contributors",
+      "license": "MIT",
+      "used_for": "finding a safe place to return keyboard focus when the details dialog closes",
+      "notice": "Copyright (c) 2015 David Clark, MIT text in licenses/tabbable.txt.",
+      "license_file": "licenses/tabbable.txt",
+      "starred": "checked Oct 23, 2026 (GitHub says starred by 2three1y)"
+    },
+    {
+      "name": "web-haptics",
+      "repo": "https://github.com/lochie/web-haptics",
+      "author": "Lochie Axon",
+      "license": "MIT",
+      "used_for": "a haptic tick on each star you pass, on phones that support it",
+      "notice": "Copyright (c) 2025 Lochie Axon, MIT text in licenses/web-haptics.txt.",
+      "license_file": "licenses/web-haptics.txt",
+      "starred": "checked Oct 23, 2026 (GitHub says starred by 2three1y)"
+    }
+  ]
+}

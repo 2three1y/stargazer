@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stargazer: hear Carter's GitHub stars</title>
+<meta name="description" content="All of Carter's GitHub stars as a sound map. Move through them by year, language or license. Pitch is star count, and each license family has its own sound.">
+<meta name="color-scheme" content="dark light">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="vendor/spkbl.css">
+</head>
+<body>
+<a class="skip" href="#explore-title">Skip to the star player</a>
+<header class="site-header">
+  <h1>Stargazer</h1>
+  <p class="tagline">Hear <span id="total-count">all</span> of Carter's GitHub stars. Higher pitch means more stars, and every license family has its own sound.</p>
+</header>
+
+<main id="main">
+  <section aria-labelledby="start-title" class="card" id="start">
+    <h2 id="start-title">Start</h2>
+    <p id="load-status">Loading the stars…</p>
+    <p>Nothing plays until you press a button. Then move with Next and Previous, or swipe up and down on the Position slider with VoiceOver.</p>
+    <button type="button" id="start-btn" class="big">Start listening</button>
+  </section>
+
+  <section aria-labelledby="explore-title" class="card" id="explore">
+    <h2 id="explore-title" tabindex="-1">Star player</h2>
+
+    <div class="controls-grid">
+      <div class="field">
+        <label for="arrange">Arrange stars by</label>
+        <select id="arrange">
+          <option value="all">Everything, one big list</option>
+          <option value="year">Year starred</option>
+          <option value="language">Language</option>
+          <option value="license">License</option>
+          <option value="band">How many stars it has</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="group">Group</label>
+        <select id="group"></select>
+      </div>
+      <div class="field">
+        <label for="order">Order inside the group</label>
+        <select id="order">
+          <option value="newest">Newest star first</option>
+          <option value="oldest">Oldest star first</option>
+          <option value="most">Most stars first</option>
+          <option value="fewest">Fewest stars first</option>
+          <option value="az">A to Z</option>
+        </select>
+      </div>
+      <div class="field check">
+        <input type="checkbox" id="safe-only">
+        <label for="safe-only">Only mash-up safe licenses (permissive or public domain)</label>
+      </div>
+    </div>
+
+    <div class="row">
+      <button type="button" id="prev-group">Previous group</button>
+      <button type="button" id="next-group">Next group</button>
+    </div>
+
+    <div class="now" id="now">
+      <h3 id="now-title">Now playing</h3>
+      <p id="now-position" class="muted">No star selected yet.</p>
+      <p class="now-name"><span id="now-name">Press Start listening</span></p>
+      <ul class="facts" id="now-facts"></ul>
+      <p id="now-desc"></p>
+      <div class="pitch" aria-hidden="true"><div class="pitch-bar" id="pitch-bar"></div></div>
+    </div>
+
+    <div class="field slider">
+      <label for="position">Position</label>
+      <input type="range" id="position" min="0" max="0" step="1" value="0">
+    </div>
+
+    <div class="row big-row">
+      <button type="button" id="prev" class="big">Previous star</button>
+      <button type="button" id="again" class="big">Play again</button>
+      <button type="button" id="next" class="big">Next star</button>
+    </div>
+    <div class="row">
+      <button type="button" id="details-btn">Details</button>
+      <button type="button" id="sweep" aria-pressed="false">Sweep this group</button>
+      <a id="gh-link" href="https://github.com/2three1y?tab=stars">Open on GitHub</a>
+    </div>
+
+    <form id="find-form" class="find" role="search">
+      <label for="find">Find a repo by name or word</label>
+      <div class="row">
+        <input type="search" id="find" autocomplete="off" spellcheck="false" enterkeyhint="search">
+        <button type="submit">Find</button>
+      </div>
+      <p class="hint">Press Find again to jump to the next match.</p>
+    </form>
+  </section>
+
+  <section aria-labelledby="list-title" class="card">
+    <h2 id="list-title">This group as a list</h2>
+    <p id="list-summary" class="muted"></p>
+    <ul id="list" class="repo-list"></ul>
+    <button type="button" id="more">Show 25 more</button>
+  </section>
+
+  <section aria-labelledby="graphs-title" class="card">
+    <h2 id="graphs-title">Audio graphs</h2>
+    <p>Each bar plays as a note, low to high, half a second apart. The text version is under each button.</p>
+    <div class="graph">
+      <button type="button" data-graph="years">Play stars per year</button>
+      <p class="muted" id="graph-years"></p>
+    </div>
+    <div class="graph">
+      <button type="button" data-graph="languages">Play top 12 languages</button>
+      <p class="muted" id="graph-languages"></p>
+    </div>
+    <div class="graph">
+      <button type="button" data-graph="licenses">Play license families</button>
+      <p class="muted" id="graph-licenses"></p>
+    </div>
+    <div class="graph">
+      <button type="button" data-graph="group">Play star counts in this group (first 40)</button>
+      <p class="muted" id="graph-group"></p>
+    </div>
+    <button type="button" id="graph-stop">Stop graph</button>
+  </section>
+
+  <section aria-labelledby="legend-title" class="card">
+    <h2 id="legend-title">What the sounds mean</h2>
+    <p>Each star plays a license sound, then a note. The more stars a repo has, the higher the note.</p>
+    <ul class="legend" id="legend"></ul>
+  </section>
+
+  <section aria-labelledby="settings-title" class="card">
+    <h2 id="settings-title">Settings</h2>
+    <div class="field check"><input type="checkbox" id="opt-earcons" checked><label for="opt-earcons">License sounds</label></div>
+    <div class="field check"><input type="checkbox" id="opt-tones" checked><label for="opt-tones">Star count notes</label></div>
+    <div class="field check"><input type="checkbox" id="opt-speech"><label for="opt-speech">Speak with the browser's voice instead of VoiceOver</label></div>
+    <div class="field check"><input type="checkbox" id="opt-haptics" checked><label for="opt-haptics">Haptic tick on each star (phones that support it)</label></div>
+    <div class="field">
+      <label for="opt-speed">Sweep speed</label>
+      <select id="opt-speed">
+        <option value="900">Slow, about 1 star a second</option>
+        <option value="450" selected>Medium, about 2 a second</option>
+        <option value="250">Fast, about 4 a second</option>
+      </select>
+    </div>
+    <div class="field slider">
+      <label for="opt-volume">Volume</label>
+      <input type="range" id="opt-volume" min="0" max="100" step="10" value="70">
+    </div>
+  </section>
+
+  <section aria-labelledby="keys-title" class="card">
+    <h2 id="keys-title">Keyboard shortcuts</h2>
+    <p>These work anywhere except inside a text box or menu.</p>
+    <ul>
+      <li>Right or Left arrow, or J and K: next or previous star</li>
+      <li>Down or Up arrow: next or previous group</li>
+      <li>D: details for this star</li>
+      <li>Space or P: play this star again</li>
+      <li>S: start or stop a sweep</li>
+      <li>Slash: jump to Find</li>
+      <li>Escape: stop sounds and close details</li>
+    </ul>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <p>Made by Carter (2three1y), built only from repos he starred. <a href="credits.html">Starred credits</a> · <a href="https://github.com/2three1y/stargazer">Source on GitHub</a></p>
+  <p id="data-note" class="muted"></p>
+</footer>
+
+<div id="announcer" class="visually-hidden" aria-live="polite" aria-atomic="true"></div>
+
+<div id="detail" class="dialog" aria-labelledby="detail-title" aria-hidden="true">
+  <div class="dialog-overlay" data-a11y-dialog-hide></div>
+  <div class="dialog-content" role="document">
+    <button type="button" class="dialog-close" data-a11y-dialog-hide>Close details</button>
+    <h2 id="detail-title">Repo</h2>
+    <div id="detail-body"></div>
+  </div>
+</div>
+
+<script src="vendor/spkbl.min.js"></script>
+<script type="module" src="app.js"></script>
+</body>
+</html>
