@@ -164,6 +164,11 @@ function licenseTitle(id) {
   return (state.licenses[id] && state.licenses[id].title) || id;
 }
 function yearOf(r) { return r.starredAt ? r.starredAt.slice(0, 4) : null; }
+function monthOf(r) { return r.starredAt ? r.starredAt.slice(0, 7) : null; }
+function monthLabel(key) {
+  const [y, m] = key.split('-').map(Number);
+  return new Date(Date.UTC(y, m - 1, 1)).toLocaleDateString('en-US', { month: 'long', year: 'numeric', timeZone: 'UTC' });
+}
 
 export function buildGroups(repos, arrange) {
   const map = new Map();
@@ -174,12 +179,13 @@ export function buildGroups(repos, arrange) {
   for (const r of repos) {
     if (arrange === 'all') add('all', 'All stars', r);
     else if (arrange === 'year') add(yearOf(r) || 'unknown', yearOf(r) ? `Starred in ${yearOf(r)}` : 'Star date unknown', r);
+    else if (arrange === 'month') add(monthOf(r) || 'unknown', monthOf(r) ? `Starred in ${monthLabel(monthOf(r))}` : 'Star date unknown', r);
     else if (arrange === 'language') add(r.language || 'none', r.language || 'No language listed', r);
     else if (arrange === 'license') add(r.license, licenseTitle(r.license), r);
     else if (arrange === 'band') add(bandOf(r.stars), bandOf(r.stars), r);
   }
   let groups = [...map.values()];
-  if (arrange === 'year') groups.sort((a, b) => b.key.localeCompare(a.key));
+  if (arrange === 'year' || arrange === 'month') groups.sort((a, b) => b.key.localeCompare(a.key));
   else if (arrange === 'band') groups.sort((a, b) => BAND_ORDER.indexOf(a.key) - BAND_ORDER.indexOf(b.key));
   else groups.sort((a, b) => b.repos.length - a.repos.length || a.label.localeCompare(b.label));
   return groups;
@@ -474,11 +480,11 @@ function stopGraph() { if (state.graph) { state.graph.stop(); state.graph = null
 function countBy(arr, fn) { const m = new Map(); arr.forEach((x) => { const k = fn(x); m.set(k, (m.get(k) || 0) + 1); }); return m; }
 function graphData(kind) {
   const repos = filtered();
-  if (kind === 'years') {
+  if (kind === 'months') {
     if (!state.hasDates) return null;
-    const m = countBy(repos.filter((r) => r.starredAt), yearOf);
+    const m = countBy(repos.filter((r) => r.starredAt), monthOf);
     const xs = [...m.keys()].sort();
-    return { x: xs, y: xs.map((k) => m.get(k)), label: 'Stars per year, oldest year first' };
+    return { x: xs.map(monthLabel), y: xs.map((k) => m.get(k)), label: 'Stars per month, oldest month first' };
   }
   if (kind === 'languages') {
     const m = countBy(repos.filter((r) => r.language), (r) => r.language);
@@ -499,13 +505,13 @@ function graphText(d) {
   const maxI = d.y.indexOf(max);
   const min = Math.min(...d.y);
   const minI = d.y.indexOf(min);
-  const head = d.x.length <= 12 ? d.x.map((x, i) => `${x}: ${fmt(d.y[i])}`).join(', ') : `${fmt(d.x.length)} notes`;
+  const head = d.x.length <= 24 ? d.x.map((x, i) => `${x}: ${fmt(d.y[i])}`).join(', ') : `${fmt(d.x.length)} notes`;
   return `${d.label}. ${head}. Highest note ${d.x[maxI]} (${fmt(max)}), lowest ${d.x[minI]} (${fmt(min)}).`;
 }
 function renderGraphTexts() {
-  const y = graphData('years');
-  $('#graph-years').textContent = y ? graphText(y) : 'Needs star dates. They arrive with the next weekly data refresh.';
-  $('[data-graph="years"]').disabled = !y;
+  const y = graphData('months');
+  $('#graph-months').textContent = y ? graphText(y) : 'Needs star dates. They arrive with the next weekly data refresh.';
+  $('[data-graph="months"]').disabled = !y;
   $('#graph-languages').textContent = graphText(graphData('languages'));
   $('#graph-licenses').textContent = graphText(graphData('licenses'));
 }
@@ -702,15 +708,20 @@ async function boot() {
     });
     state.maxStars = state.repos.reduce((m, r) => Math.max(m, r.stars), 1);
     state.hasDates = state.repos.some((r) => r.starredAt);
-    const yearOpt = el.arrange.querySelector('option[value="year"]');
-    if (!state.hasDates) { yearOpt.disabled = true; yearOpt.textContent = 'Year starred (needs star dates, coming with the next refresh)'; }
+    if (!state.hasDates) {
+      for (const v of ['year', 'month']) {
+        const o = el.arrange.querySelector(`option[value="${v}"]`);
+        o.disabled = true;
+        o.textContent += ' (needs star dates, coming with the next refresh)';
+      }
+    }
     $('#total-count').textContent = fmt(state.repos.length);
     $('#load-status').textContent = `${fmt(state.repos.length)} stars loaded.`;
     $('#data-note').textContent = `Star data from ${data.generated}${data.source ? ': ' + data.source : ''}. It refreshes weekly.`;
     // Restore the last view.
     let saved = {};
     try { saved = JSON.parse(localStorage.getItem('stargazer-view') || '{}'); } catch (e) { /* ignore */ }
-    if (saved.arrange && !(saved.arrange === 'year' && !state.hasDates)) state.arrange = saved.arrange;
+    if (saved.arrange && !((saved.arrange === 'year' || saved.arrange === 'month') && !state.hasDates)) state.arrange = saved.arrange;
     if (saved.order) state.order = saved.order;
     state.safeOnly = !!saved.safeOnly;
     el.arrange.value = state.arrange;

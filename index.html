@@ -32,6 +32,7 @@
         <label for="arrange">Arrange stars by</label>
         <select id="arrange">
           <option value="all">Everything, one big list</option>
+          <option value="month">Month starred</option>
           <option value="year">Year starred</option>
           <option value="language">Language</option>
           <option value="license">License</option>
@@ -109,8 +110,8 @@
     <h2 id="graphs-title">Audio graphs</h2>
     <p>Each bar plays as a note, low to high, half a second apart. The text version is under each button.</p>
     <div class="graph">
-      <button type="button" data-graph="years">Play stars per year</button>
-      <p class="muted" id="graph-years"></p>
+      <button type="button" data-graph="months">Play stars per month</button>
+      <p class="muted" id="graph-months"></p>
     </div>
     <div class="graph">
       <button type="button" data-graph="languages">Play top 12 languages</button>

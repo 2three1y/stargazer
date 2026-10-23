@@ -10,10 +10,10 @@ Made by Carter (2three1y), built only from repos he starred.
 
 - Press Start listening. Nothing plays before you press a button.
 - Move with Next star and Previous star, or swipe up and down on the Position slider with VoiceOver.
-- Arrange the stars by year starred, language, license or star count, then pick a group.
+- Arrange the stars by month or year starred, language, license or star count, then pick a group.
 - Turn on Only mash-up safe licenses to hear just the permissive and public domain repos.
 - Details opens a dialog with the full info and a plain-English summary of what the license lets you do, plus a Read details aloud button.
-- Audio graphs play stars per year, top languages, license families and the star counts in a group.
+- Audio graphs play stars per month, top languages, license families and the star counts in a group.
 
 ## What the sounds mean
 
