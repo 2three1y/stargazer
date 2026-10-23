@@ -1,4 +1,4 @@
-// Stargazer: hear Carter's GitHub stars.
+// Stargazer: hear my GitHub stars.
 // Made by Carter (2three1y). See credits.html for every starred repo used.
 import A11yDialog from './vendor/a11y-dialog.esm.min.js';
 import { tabbable } from './vendor/tabbable.esm.min.js';
@@ -401,7 +401,7 @@ function openDetails(r = current()) {
   facts.appendChild(li(`Stars: ${fmt(r.stars)}`));
   facts.appendChild(li(`Language: ${r.language || 'not listed'}`));
   facts.appendChild(li(`License: ${licenseTitle(r.license)}`));
-  if (r.starredAt) facts.appendChild(li(`Carter starred it on ${formatDate(r.starredAt)}`));
+  if (r.starredAt) facts.appendChild(li(`I starred it on ${formatDate(r.starredAt)}`));
   facts.appendChild(li(`Owner: ${r.repo.split('/')[0]}`));
   sec.appendChild(facts);
   sec.appendChild(h('p', r.description || 'No description.'));

@@ -1,10 +1,10 @@
 # Stargazer
 
-Hear all of Carter's GitHub stars. Every starred repo becomes a sound: the note gets higher the more stars it has, and each license family has its own sound, so you can tell by ear which repos are safe to mash up.
+Hear all of my GitHub stars. Every starred repo becomes a sound: the note gets higher the more stars it has, and each license family has its own sound, so you can tell by ear which repos are safe to mash up.
 
 Live: https://2three1y.github.io/stargazer/
 
-Made by Carter (2three1y), built only from repos he starred.
+I made this (Carter, 2three1y), built only from repos I starred.
 
 ## How to use it
 
