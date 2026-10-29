@@ -43,7 +43,7 @@ for (const c of credits.credits) {
     </section>`;
 }
 const html = `<!doctype html>
-<html lang="en">
+<html lang="en-US">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
